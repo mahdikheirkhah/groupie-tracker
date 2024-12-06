@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -70,18 +71,25 @@ func main() {
 
 // PostHandler handles POST requests to generate ASCII art
 func MainPageHandler(w http.ResponseWriter, r *http.Request) {
-
+	if r.URL.Path != "/" {
+		Error(w, "Not Found Error", "notFound.html", 404)
+		return
+	}
+	if r.Method != http.MethodGet {
+		Error(w, "Bad Request Error", "badRequest.html", 400)
+		return
+	}
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 	var body []byte
 	body, err = ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
 		log.Println(err.Error())
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 	// Unmarshal JSON into Go struct
@@ -91,7 +99,7 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &artists)
 	if err != nil {
 		log.Println("Error unmarshalling JSON:", err)
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 	for i := 0; i < len(artists); i++ {
@@ -100,19 +108,7 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 				artists[i].Members[j] += ","
 			}
 		}
-		// body, err = ReadFromAPI(http.MethodGet, artists[i].Relations)
-		// err = json.Unmarshal(body, &relation)
-		// if err != nil {
-		// 	log.Println("Error unmarshalling JSON:", err)
-		// 	log.Println("we are here")
-		// 	internalServerError(w)
-		// 	return
-		// }
-		// relations = append(relations, relation)
 	}
-	// for i := 0; i < len(relations); i++ {
-	// 	fmt.Println(relations[i])
-	// }
 	// Check if there is data
 	if len(artists) == 0 {
 		log.Println("No artists data available")
@@ -124,82 +120,73 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 	err = tmpl.ExecuteTemplate(w, "index.html", artists)
 	if err != nil {
 		log.Println("Error executing template:", err)
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 }
 
 func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 	Artistid := strings.TrimPrefix(r.URL.Path, "/artist/")
+	ArtistIntId, err := strconv.Atoi(Artistid)
+	if err != nil || ArtistIntId < 1 || ArtistIntId > 52 {
+		Error(w, "Not Found Error", "notFound.html", 404)
+		return
+	}
+	if r.URL.Path != ("/artist/" + Artistid) {
+		Error(w, "Not Found Error", "notFound.html", 404)
+		return
+	}
+	if r.Method != http.MethodGet {
+		Error(w, "Bad Request Error", "badRequest.html", 400)
+		return
+	}
 	URL := "https://groupietrackers.herokuapp.com/api/relation/" + Artistid
 	fmt.Println(URL)
 	tmpl, err := template.ParseFiles("templates/concerts.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 	var body []byte
 	var relation Relations
 	body, err = ReadFromAPI(http.MethodGet, URL)
+	if err != nil {
+		log.Println("Error Reading From API:", err)
+		Error(w, "internal Server Error", "internalServer.html", 500)
+		return
+	}
 	err = json.Unmarshal(body, &relation)
 	if err != nil {
 		log.Println("Error unmarshalling JSON:", err)
 		log.Println("we are here")
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 	fmt.Println(relation)
 	err = tmpl.ExecuteTemplate(w, "concerts.html", relation.DatesLocations)
 	if err != nil {
 		log.Println("Error executing template:", err)
-		internalServerError(w)
+		Error(w, "internal Server Error", "internalServer.html", 500)
 		return
 	}
 }
 
-// badRequestError serves a 400 error page
-func badRequestError(w http.ResponseWriter) {
-	log.Printf("Response Status: %d\n", http.StatusBadRequest)
-	tmpl, err := template.ParseFiles("templates/badRequest.html")
+func Error(w http.ResponseWriter, errorMessage string, htmlFileName string, statusCode int) {
+	log.Printf("Response Status: %d\n", statusCode)
+	htmlFileAddress := "templates/" + htmlFileName
+	tmpl, err := template.ParseFiles(htmlFileAddress)
 	if err != nil {
-		http.Error(w, "Bad request", http.StatusBadRequest)
+		http.Error(w, errorMessage, statusCode)
 		return
 	}
-	err = safeRenderTemplate(w, tmpl, "badRequest.html", http.StatusBadRequest, nil)
+	err = safeRenderTemplate(w, tmpl, htmlFileName, statusCode, nil)
 	if err != nil {
-		internalServerError(w)
-		return
-	}
-}
-
-// notFoundError serves a 404 error page
-func notFoundError(w http.ResponseWriter) {
-	log.Printf("Response Status: %d\n", http.StatusNotFound)
-	tmpl, err := template.ParseFiles("templates/notFound.html")
-	if err != nil {
-		http.Error(w, "Not Found", http.StatusNotFound)
-		return
-	}
-	err = safeRenderTemplate(w, tmpl, "notFound.html", http.StatusNotFound, nil)
-	if err != nil {
-		internalServerError(w)
-		return
-	}
-}
-
-// internalServerError serves a 500 error page
-func internalServerError(w http.ResponseWriter) {
-	log.Printf("Response Status: %d\n", http.StatusInternalServerError)
-	tmpl, err := template.ParseFiles("templates/internalServer.html")
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-	err = safeRenderTemplate(w, tmpl, "internalServer.html", http.StatusInternalServerError, nil)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
+		if statusCode == 500 {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		} else {
+			Error(w, "internal Server Error", "internalServer.html", 500)
+		}
 	}
 }
 
