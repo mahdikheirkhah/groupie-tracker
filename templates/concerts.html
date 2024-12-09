@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Artist.Name}} </title>
+    <link rel="stylesheet" href="/static/css/styles.css">
     <style>
         table {
             width: 100%;
@@ -22,21 +23,21 @@
 <body>
     <h1> {{.Artist.Name}} </h1>
     <div>
-        <p><strong>Image:</strong> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" style="max-width:200px;"></p>
-        <p><strong>Members:</strong> {{range .Artist.Members}}{{.}} {{end}}</p>
-        <p><strong>Creation Date:</strong> {{.Artist.CreationDate}}</p>
-        <p><strong>First Album:</strong> {{.Artist.FirstAlbum}}</p>
+        <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" style="min-width: 2000px;"></p>
+        <p><h2>Members:</h2> {{range .Artist.Members}}<p>{{.}}</p>{{end}}</p>
+        <p><h2>Creation Date:</h2> {{.Artist.CreationDate}}</p>
+        <p><h2>First Album:</h2> {{.Artist.FirstAlbum}}</p>
     </div>
     <h2>location of concerts:</h2>
     <div>
         {{range .Locations.Locations}}
-        <span>{{.}}</span>
+        <p>{{.}}</p>
         {{end}}
     </div> 
     <h2>Dates of concerts:</h2>
     <div>
         {{range .Dates.Dates}}
-        <span>{{.}}</span>
+        <p>{{.}}</p>
         {{end}}
     </div> 
     <h2>location and date of concerts:</h2>

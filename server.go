@@ -141,13 +141,11 @@ func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 	if !result {
 		return
 	}
-	fmt.Println(information.Artist.ConcertDates)
 	result = ReadFromAPI(http.MethodGet, information.Artist.ConcertDates, &information.Dates, w)
 	for i := 0; i < len(information.Dates.Dates); i++ {
 		information.Dates.Dates[i] = strings.TrimPrefix(information.Dates.Dates[i], "*")
 	}
 	if !result {
-		fmt.Println("hdhhdhd")
 		return
 	}
 	result = ReadFromAPI(http.MethodGet, information.Artist.Locations, &information.Locations, w)
@@ -221,7 +219,6 @@ func ReadFromAPI(method string, URL string, toSaveResult any, w http.ResponseWri
 	}
 	err = json.Unmarshal(body, &toSaveResult)
 	if err != nil {
-		fmt.Println()
 		log.Println("Error Reading From API4:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 		return false
