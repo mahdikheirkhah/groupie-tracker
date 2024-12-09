@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -31,7 +32,7 @@ type Locations struct {
 
 type Dates struct {
 	Id    int
-	Dates string
+	Dates []string
 }
 
 type Relations struct {
@@ -39,8 +40,10 @@ type Relations struct {
 	DatesLocations map[string][]string
 }
 
-type ConcertsPage struct {
+type InformationPage struct {
 	Relations Relations
+	Locations Locations
+	Dates     Dates
 	Artist    Artists
 }
 
@@ -81,22 +84,8 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		var body []byte
-		body, err = ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists")
-		if err != nil {
-			log.Println(err.Error())
-			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
-			return
-		}
-
-		// Unmarshal JSON into Go struct
 		var artists []Artists
-		err = json.Unmarshal(body, &artists)
-		if err != nil {
-			log.Println("Error unmarshalling JSON:", err)
-			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
-			return
-		}
+		ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists", &artists, w)
 
 		for i := 0; i < len(artists); i++ {
 			for j := 0; j < len(artists[i].Members); j++ {
@@ -108,7 +97,7 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 
 		if len(artists) == 0 {
 			log.Println("No artists data available")
-			http.Error(w, "No data available", http.StatusNotFound)
+			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 			return
 		}
 
@@ -136,45 +125,36 @@ func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	URL := "https://groupietrackers.herokuapp.com/api/relation/" + Artistid
+	URL := "https://groupietrackers.herokuapp.com/api/artists/" + Artistid
 	tmpl, err := template.ParseFiles("templates/concerts.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 		return
 	}
-
-	var body []byte
-	var concert ConcertsPage
-	body, err = ReadFromAPI(http.MethodGet, URL)
-	if err != nil {
-		log.Println("Error Reading From API:", err)
-		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+	var information InformationPage
+	result := ReadFromAPI(http.MethodGet, URL, &information.Artist, w)
+	if !result {
 		return
 	}
-
-	err = json.Unmarshal(body, &concert.Relations)
-	if err != nil {
-		log.Println("Error unmarshalling JSON:", err)
-		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+	result = ReadFromAPI(http.MethodGet, information.Artist.Relations, &information.Relations, w)
+	if !result {
 		return
 	}
-
-	body, err = ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists/"+Artistid)
-	if err != nil {
-		log.Println("Error Reading From API:", err)
-		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+	fmt.Println(information.Artist.ConcertDates)
+	result = ReadFromAPI(http.MethodGet, information.Artist.ConcertDates, &information.Dates, w)
+	for i := 0; i < len(information.Dates.Dates); i++ {
+		information.Dates.Dates[i] = strings.TrimPrefix(information.Dates.Dates[i], "*")
+	}
+	if !result {
+		fmt.Println("hdhhdhd")
 		return
 	}
-
-	err = json.Unmarshal(body, &concert.Artist)
-	if err != nil {
-		log.Println("Error unmarshalling JSON:", err)
-		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+	result = ReadFromAPI(http.MethodGet, information.Artist.Locations, &information.Locations, w)
+	if !result {
 		return
 	}
-
-	err = safeRenderTemplate(w, tmpl, "concerts.html", http.StatusOK, concert)
+	err = safeRenderTemplate(w, tmpl, "concerts.html", http.StatusOK, information)
 	if err != nil {
 		log.Println("Error executing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -212,25 +192,39 @@ func safeRenderTemplate(w http.ResponseWriter, tmpl *template.Template, htmlFile
 	return nil
 }
 
-func ReadFromAPI(method string, URL string) ([]byte, error) {
+func ReadFromAPI(method string, URL string, toSaveResult any, w http.ResponseWriter) bool {
+	fmt.Println(URL)
 	client := &http.Client{}
 	req, err := http.NewRequest(method, URL, nil)
 	if err != nil {
-		return nil, err
+		log.Println("Error Reading From API1:", err)
+		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+		return false
 	}
 	req.Header.Set("Content-Type", "application/json")
 
 	// Make the request
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		log.Println("Error Reading From API2:", err)
+		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+		return false
 	}
 	defer resp.Body.Close()
 
 	// Read the response
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		log.Println("Error Reading From API3:", err)
+		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+		return false
 	}
-	return body, nil
+	err = json.Unmarshal(body, &toSaveResult)
+	if err != nil {
+		fmt.Println()
+		log.Println("Error Reading From API4:", err)
+		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
+		return false
+	}
+	return true
 }

@@ -21,7 +21,25 @@
 </head>
 <body>
     <h1> {{.Artist.Name}} </h1>
-    <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" style="max-width:200px;"></p>
+    <div>
+        <p><strong>Image:</strong> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" style="max-width:200px;"></p>
+        <p><strong>Members:</strong> {{range .Artist.Members}}{{.}} {{end}}</p>
+        <p><strong>Creation Date:</strong> {{.Artist.CreationDate}}</p>
+        <p><strong>First Album:</strong> {{.Artist.FirstAlbum}}</p>
+    </div>
+    <h2>location of concerts:</h2>
+    <div>
+        {{range .Locations.Locations}}
+        <span>{{.}}</span>
+        {{end}}
+    </div> 
+    <h2>Dates of concerts:</h2>
+    <div>
+        {{range .Dates.Dates}}
+        <span>{{.}}</span>
+        {{end}}
+    </div> 
+    <h2>location and date of concerts:</h2>
     <table>
         <thead>
             <tr>
