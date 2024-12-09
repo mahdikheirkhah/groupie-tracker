@@ -4,13 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
     <div id="header">
         <h1>Artists</h1>
     </div>
 
+    <!-- Generate forms dynamically for each artist -->
+    <form >
+        <label for="artists">Choose an artist:</label>
+        <select id="artists" name="artistId">
+            {{range .}}
+                <option value="{{.Id}}">{{.Name}}</option>
+            {{end}}
+        </select>
+        <br><br>
+        <input type="submit" value="Go">
+    </form>
+
+    <!-- Display all artists -->
     <div id="artists">
         {{range .}}
         <div class="artist">

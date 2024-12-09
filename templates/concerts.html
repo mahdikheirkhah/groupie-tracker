@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Data</title>
+    <title>{{.Artist.Name}} </title>
     <style>
         table {
             width: 100%;
@@ -20,7 +20,8 @@
     </style>
 </head>
 <body>
-    <h1>Map Data</h1>
+    <h1> {{.Artist.Name}} </h1>
+    <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" style="max-width:200px;"></p>
     <table>
         <thead>
             <tr>
@@ -29,7 +30,7 @@
             </tr>
         </thead>
         <tbody>
-            {{range $key, $values := .}}
+            {{range $key, $values := .Relations.DatesLocations}}
             <tr>
                 <td rowspan="{{len $values}}">{{$key}}</td>
                 <td>{{index $values 0}}</td>
