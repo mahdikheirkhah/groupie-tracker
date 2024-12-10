@@ -5,25 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Artist.Name}} </title>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
 </head>
 <body>
     <h1> {{.Artist.Name}} </h1>
     <div>
-        <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" style="min-width: 2000px;"></p>
+        <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}"></p>
         <p><h2>Members:</h2> {{range .Artist.Members}}<p>{{.}}</p>{{end}}</p>
         <p><h2>Creation Date:</h2> {{.Artist.CreationDate}}</p>
         <p><h2>First Album:</h2> {{.Artist.FirstAlbum}}</p>
@@ -41,26 +27,28 @@
         {{end}}
     </div> 
     <h2>location and date of concerts:</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Location</th>
-                <th>Dates</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range $key, $values := .Relations.DatesLocations}}
-            <tr>
-                <td rowspan="{{len $values}}">{{$key}}</td>
-                <td>{{index $values 0}}</td>
-            </tr>
-            {{range $index, $value := slice $values 1}}
-            <tr>
-                <td>{{$value}}</td>
-            </tr>
-            {{end}}
-            {{end}}
-        </tbody>
-    </table>
+    <div id="DatesLocationsTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Dates</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range $key, $values := .Relations.DatesLocations}}
+                <tr>
+                    <td rowspan="{{len $values}}">{{$key}}</td>
+                    <td>{{index $values 0}}</td>
+                </tr>
+                {{range $index, $value := slice $values 1}}
+                <tr>
+                    <td>{{$value}}</td>
+                </tr>
+                {{end}}
+                {{end}}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

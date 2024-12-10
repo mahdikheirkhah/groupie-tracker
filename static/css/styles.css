@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #293e30;
+    background-color: #2f786d;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -15,6 +15,7 @@ body {
 #header {
     display:flex;
     justify-content: center;
+    color: #ddd;
 }
 
 #SearchForm {
@@ -29,6 +30,9 @@ body {
     margin: 20px auto;
 }
 
+#DatesLocationsTable{
+    margin: 20px 20px
+}
 
 #input-table {
     width: 100%; 
@@ -42,38 +46,6 @@ body {
     box-sizing: border-box;
     overflow: visible;
     vertical-align: top;
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.generate-btn, .clear-btn {
-    flex: 1;
-    background-color: #4CAF50;
-    color: rgb(255, 255, 255);
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#response {
-    border: 2px solid #000;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    margin: 20px auto;
-    padding: 10px;
-    width: 90%;
-    min-width: none;
-    font-family: monospace;
-    white-space: pre; 
-    overflow: auto; 
-    height: 300px;
 }
 
 #error {
@@ -98,9 +70,52 @@ body {
     align-items: center;
     margin: auto auto;
     overflow: auto; 
+    background-color: #f4f4f4;
 }
+#artists {
+    display: grid; /* Use CSS Grid for precise control */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamic column layout */
+    gap: 20px; /* Space between cards */
+    width: 90%; /* Adjust container width */
+    margin: 20px auto; /* Center the container horizontally */
+    justify-content: center; /* Center the grid content */
+}
+
 .artist img {
     display: block;
     align-items: center;
-    margin-bottom: 10px;
+    margin: 20px auto;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    flex: 1;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f4f4f4;
 }

@@ -5,22 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <style>
-    .button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-    .button:hover {
-        background-color: #45a049;
-    }
-    </style>
 </head>
 <body>
     <div id="header">
@@ -29,8 +13,8 @@
 
     <!-- Generate forms dynamically for each artist -->
     <form id="SearchForm">
-        <label for="artists">Choose an artist:</label>
-        <select id="artists" name="artistId">
+        <label for="artistsOption">Choose an artist:</label>
+        <select id="artistsOption" name="artistId">
             {{range .}}
                 <option value="{{.Id}}">{{.Name}}</option>
             {{end}}
@@ -47,7 +31,6 @@
             <p><img src="{{.Image}}" alt="{{.Name}}"></p>
             <p><strong> <a href="/artist/{{.Id}}" class="button">More Information</a></strong></p>
         </div>
-        <hr>
         {{end}}
     </div>
 </body>
