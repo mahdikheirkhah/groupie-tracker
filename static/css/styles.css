@@ -12,11 +12,34 @@ body {
     text-align: center;
 }
 
-#header {
+/* #header {
     display:flex;
     justify-content: center;
     color: #ddd;
+} */
+.nav-bar {
+    background-color: #4D6F66;
+    border-bottom: 2px solid rgb(161, 255, 224);
+    padding-top: 15px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    animation: expand 1.5s ease;
+    position: relative;
 }
+.nav-bar li a {
+    color: rgb(6, 23, 17);
+    text-decoration: none;
+    padding-left: 50px;
+    padding-right: 50px;
+    transition: text-shadow 0.2s ease;
+    display: flex;
+    font-size: 25px;
+}
+
 li {
     list-style-type: none;
 }
@@ -76,12 +99,12 @@ li {
     background-color: #f4f4f4;
 }
 #artists {
-    display: grid; /* Use CSS Grid for precise control */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamic column layout */
-    gap: 20px; /* Space between cards */
-    width: 90%; /* Adjust container width */
-    margin: 20px auto; /* Center the container horizontally */
-    justify-content: center; /* Center the grid content */
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 20px; 
+    width: 90%; 
+    margin: 20px auto; 
+    justify-content: center; 
 }
 
 .artist img {

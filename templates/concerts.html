@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <h1><li><a href="/">Gropie-Tracker</a></li></h1>
-    <h1> {{.Artist.Name}} </h1>
+    <div class="nav-bar">
+        <li><a href="/">Gropie-Tracker</a></li>
+    </div>
     <div>
         <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}"></p>
         <p><h2>Members:</h2> {{range .Artist.Members}}<p>{{.}}</p>{{end}}</p>
