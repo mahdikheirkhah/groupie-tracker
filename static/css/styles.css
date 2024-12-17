@@ -52,6 +52,7 @@ li {
 
 #error {
     display: flex;
+    background-color: #d06565;
     justify-content: center;
     overflow-x: hidden;
     margin: 35px auto;
