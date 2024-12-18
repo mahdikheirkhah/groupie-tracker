@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <div id="header">
-        <h1>Artists</h1>
+    <div class="nav-bar">
+        <h1><a href="/">Gropie-Tracker</a></h1>
     </div>
+
+    <form id="SearchForm">
+        <label for="artistsOption">Choose an artist:</label>
+        <select id="artistsOption" name="artistId">
+            {{range .}}
+                <option value="{{.Id}}">{{.Name}}</option>
+            {{end}}
+        </select>
+        <br><br>
+        <input type="submit" class="details-button" value="See Details">
+    </form>
 
     <div id="artists">
         {{range .}}
         <div class="artist">
-            <h2><a href="/artist/{{.Id}}" style="text-decoration: none; color: inherit;">{{.Name}}</a></h2>
-            <p><strong>ID:</strong> {{.Id}}</p>
-            <p><strong>Image:</strong> <img src="{{.Image}}" alt="{{.Name}}" style="max-width:200px;"></p>
-            <p><strong>Members:</strong> {{range .Members}}{{.}} {{end}}</p>
-            <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
-            <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
-            <p><strong>Locations:</strong> {{.Locations}}</p>
-            <p><strong>Concert Dates:</strong> {{.ConcertDates}}</p>
-            <p><strong>Relations:</strong> {{.Relations}}</p>
+            <h2>{{.Name}}</h2>
+            <p><img src="{{.Image}}" alt="{{.Name}}"></p>
+            <p><strong> <a href="/artist/{{.Id}}" class="info-button">More Information</a></strong></p>
         </div>
-        <hr>
         {{end}}
     </div>
 </body>
