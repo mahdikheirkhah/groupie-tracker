@@ -12,21 +12,25 @@
     </div>
     <div>
         <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}"></p>
-        <p><h2>Members:</h2> {{range .Artist.Members}}<p>{{.}}</p>{{end}}</p>
-        <p><h2>Creation Date:</h2> {{.Artist.CreationDate}}</p>
-        <p><h2>First Album:</h2> {{.Artist.FirstAlbum}}</p>
+        <p><h2>Members:</h2> <ul>{{range .Artist.Members}}<li>{{.}}</li>{{end}}</ul></p>
+        <p><h2>Creation Date:</h2> <ul><li>{{.Artist.CreationDate}}</li></ul></p>
+        <p><h2>First Album:</h2> <ul><li>{{.Artist.FirstAlbum}}</li><ul></p>
     </div>
     <h2>location of concerts:</h2>
     <div>
-        {{range .Locations.Locations}}
-        <p>{{.}}</p>
-        {{end}}
+        <ul>
+            {{range .Locations.Locations}}
+            <li>{{.}}</li>
+            {{end}}
+        </ul>
     </div> 
     <h2>Dates of concerts:</h2>
     <div>
-        {{range .Dates.Dates}}
-        <p>{{.}}</p>
-        {{end}}
+        <ul>
+            {{range .Dates.Dates}}
+            <li>{{.}}</li>
+            {{end}}
+        </ul>
     </div> 
     <h2>location and date of concerts:</h2>
     <div id="DatesLocationsTable">
