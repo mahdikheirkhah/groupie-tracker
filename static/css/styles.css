@@ -1,32 +1,13 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-<<<<<<< Updated upstream
-    background-color: #2f786d;
-    display: flex;
-    flex-direction: column;
-=======
     background-color: #f5e1da; /* First color */
->>>>>>> Stashed changes
     overflow-y: auto;
     overflow-x: auto;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
     text-align: center;
 }
 
-<<<<<<< Updated upstream
-#header {
-    display:flex;
-    justify-content: center;
-    color: #ddd;
-}
-
-#SearchForm {
-    background-color: #f9f9f9;
-    border: 2px solid #000;
-=======
 .nav-bar {
     background-color: #085f63; /* Fourth color */
     border-bottom: 2px solid #49beb7; /* Third color */
@@ -55,17 +36,12 @@ h2 {
 #SearchForm {
     background-color: #49beb7; /* Third color */
     border: 2px solid #085f63; /* Fourth color */
->>>>>>> Stashed changes
     border-radius: 10px;
     padding: 20px;
     box-sizing: border-box;
     width: auto; 
     min-width: 100px; 
-<<<<<<< Updated upstream
-    margin: 0 auto; 
-=======
     max-width: 400px;
->>>>>>> Stashed changes
     margin: 20px auto;
     color: #f1f1f1; /* Second color */
 }
@@ -90,6 +66,7 @@ h2 {
 
 #error {
     display: flex;
+    background-color: #d06565;
     justify-content: center;
     overflow-x: hidden;
     margin: 35px auto;
@@ -103,44 +80,35 @@ h2 {
 .artist {
     border: 1px solid #ddd;
     padding: 15px;
-    margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     align-items: center;
-    margin: auto auto;
     overflow: auto; 
-<<<<<<< Updated upstream
-    background-color: #f4f4f4;
-=======
     background-color: #f1f1f1; /* Second color */
->>>>>>> Stashed changes
 }
+
 #artists {
-    display: grid; /* Use CSS Grid for precise control */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamic column layout */
-    gap: 20px; /* Space between cards */
-    width: 90%; /* Adjust container width */
-    margin: 20px auto; /* Center the container horizontally */
-    justify-content: center; /* Center the grid content */
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px; 
+    width: 90%; 
+    margin: 20px auto; 
+    justify-content: center; 
 }
 
 .artist img {
     display: block;
+    border-radius: 16px;
     align-items: center;
     margin: 20px auto;
 }
 
-.button {
+.info-button {
     display: inline-block;
     padding: 10px 20px;
-<<<<<<< Updated upstream
-    background-color: #4CAF50;
-    color: white;
-=======
     background-color: #49beb7; /* Third color */
     color: #f1f1f1; /* Second color */
->>>>>>> Stashed changes
     text-align: center;
     text-decoration: none;
     border-radius: 5px;
@@ -152,15 +120,6 @@ h2 {
     transition: background-color 0.3s ease;
 }
 
-<<<<<<< Updated upstream
-.button:hover {
-    background-color: #45a049;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-=======
 .info-button:hover {
     background-color: #085f63; /* Fourth color */
 }
@@ -194,21 +153,14 @@ table {
     width: 50%; 
     background-color: white;
     border: 2px solid white;
->>>>>>> Stashed changes
 }
+
 th, td {
-<<<<<<< Updated upstream
-    border: 1px solid #ddd;
-=======
     border: 2px solid #ddd;
->>>>>>> Stashed changes
     padding: 8px;
     text-align: center;
 }
+
 th {
     background-color: #f4f4f4;
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

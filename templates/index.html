@@ -7,11 +7,10 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <div id="header">
-        <h1>Artists</h1>
+    <div class="nav-bar">
+        <h1><a href="/">Gropie-Tracker</a></h1>
     </div>
 
-    <!-- Generate forms dynamically for each artist -->
     <form id="SearchForm">
         <label for="artistsOption">Choose an artist:</label>
         <select id="artistsOption" name="artistName">
@@ -20,20 +19,15 @@
             {{end}}
         </select>
         <br><br>
-        <input type="submit" value="see Details">
+        <input type="submit" class="details-button" value="See Details">
     </form>
 
-    <!-- Display all artists -->
     <div id="artists">
         {{range .}}
         <div class="artist">
             <h2>{{.Name}}</h2>
             <p><img src="{{.Image}}" alt="{{.Name}}"></p>
-<<<<<<< Updated upstream
-            <p><strong> <a href="/artist/{{.Id}}" class="button">More Information</a></strong></p>
-=======
             <p><strong> <a href="/artist/{{.Name}}" class="info-button">More Information</a></strong></p>
->>>>>>> Stashed changes
         </div>
         {{end}}
     </div>
