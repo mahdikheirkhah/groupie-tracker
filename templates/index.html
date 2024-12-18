@@ -7,14 +7,10 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <!-- <div id="header">
-        <h1><li><a href="/">Gropie-Tracker</a></li></h1>
-    </div> -->
     <div class="nav-bar">
         <h1><a href="/">Gropie-Tracker</a></h1>
     </div>
 
-    <!-- Generate forms dynamically for each artist -->
     <form id="SearchForm">
         <label for="artistsOption">Choose an artist:</label>
         <select id="artistsOption" name="artistId">
@@ -23,10 +19,9 @@
             {{end}}
         </select>
         <br><br>
-        <input type="submit" class="details-button" value="see Details">
+        <input type="submit" class="details-button" value="See Details">
     </form>
 
-    <!-- Display all artists -->
     <div id="artists">
         {{range .}}
         <div class="artist">
