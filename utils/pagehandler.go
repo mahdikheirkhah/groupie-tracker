@@ -45,8 +45,8 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// MorInfoHandler handles individual artist pages
-func MorInfoHandler(w http.ResponseWriter, r *http.Request) {
+// MoreInfoHandler handles individual artist pages
+func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		Error(w, "Bad Request Error", "badRequest.html", http.StatusBadRequest)
 		return

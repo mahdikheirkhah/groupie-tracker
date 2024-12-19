@@ -12,6 +12,7 @@ func Error(w http.ResponseWriter, errorMessage string, htmlFileName string, stat
 	htmlFileAddress := "templates/" + htmlFileName
 	tmpl, err := template.ParseFiles(htmlFileAddress)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, errorMessage, statusCode)
 		return
 	}
