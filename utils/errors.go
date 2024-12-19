@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// Error renders an error page with the specified template, error message, and status code.
 func Error(w http.ResponseWriter, errorMessage string, htmlFileName string, statusCode int) {
 	log.Printf("Response Status: %d\n", statusCode)
 	htmlFileAddress := "templates/" + htmlFileName

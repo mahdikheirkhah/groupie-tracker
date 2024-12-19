@@ -8,9 +8,13 @@ import (
 	"net/http"
 )
 
+// ReadFromAPI sends an HTTP request to the specified URL, parses the JSON response, and saves the result.
+// Returns false if any step fails, logging the error and sending an appropriate HTTP response.
 func ReadFromAPI(method string, URL string, toSaveResult any, w http.ResponseWriter) bool {
-	fmt.Println(URL)
+	fmt.Println("Requesting API URL:", URL)
+
 	client := &http.Client{}
+
 	req, err := http.NewRequest(method, URL, nil)
 	if err != nil {
 		log.Println("Error Reading From API1:", err)
