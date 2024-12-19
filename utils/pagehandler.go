@@ -4,7 +4,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
 )
 
@@ -15,24 +14,20 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == http.MethodGet {
-		artistId := r.URL.Query().Get("artistId")
-		if artistId != "" {
+		artistName := r.URL.Query().Get("artistName")
+		if artistName != "" {
 			// Redirect to the appropriate artist URL
-			http.Redirect(w, r, "/artist/"+artistId, http.StatusSeeOther)
+			http.Redirect(w, r, "/artist/"+artistName, http.StatusSeeOther)
 			return
 		}
-
-		// Render the main page
 		tmpl, err := template.ParseFiles("templates/index.html")
 		if err != nil {
 			log.Println("Error parsing template:", err)
 			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 			return
 		}
-
 		var artists []Artists
-		ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists", &artists, w)
-
+		ReadFromAPI("https://groupietrackers.herokuapp.com/api/artists", &artists, w)
 		if len(artists) == 0 {
 			log.Println("No artists data available")
 			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -52,48 +47,57 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 
 // MorInfoHandler handles individual artist pages
 func MorInfoHandler(w http.ResponseWriter, r *http.Request) {
-	Artistid := strings.TrimPrefix(r.URL.Path, "/artist/")
-	ArtistIntId, err := strconv.Atoi(Artistid)
-	if err != nil || ArtistIntId < 1 || ArtistIntId > 52 {
-		Error(w, "Not Found Error", "notFound.html", http.StatusNotFound)
-		return
-	}
 	if r.Method != http.MethodGet {
 		Error(w, "Bad Request Error", "badRequest.html", http.StatusBadRequest)
 		return
 	}
-
-	URL := "https://groupietrackers.herokuapp.com/api/artists/" + Artistid
-	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html")
+	artistName := strings.TrimPrefix(r.URL.Path, "/artist/")
+	URL := "https://groupietrackers.herokuapp.com/api"
+	var api API
+	ReadFromAPI(URL, &api, w)
+	var artists []Artists
+	ReadFromAPI(api.Artists, &artists, w)
+	IsContain, artistId := Contains(artists, artistName)
+	if !IsContain {
+		Error(w, "Not Found Error", "notFound.html", http.StatusNotFound)
+		return
+	}
+	var information InformationPage
+	information.Artist = artists[artistId-1]
+	tmpl, err := template.ParseFiles("templates/concerts.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 		return
 	}
-	var information InformationPage
-	result := ReadFromAPI(http.MethodGet, URL, &information.Artist, w)
+	result := ReadFromAPI(information.Artist.Relations, &information.Relations, w)
 	if !result {
 		return
 	}
-	result = ReadFromAPI(http.MethodGet, information.Artist.Relations, &information.Relations, w)
-	if !result {
-		return
-	}
-	result = ReadFromAPI(http.MethodGet, information.Artist.ConcertDates, &information.Dates, w)
+	result = ReadFromAPI(information.Artist.ConcertDates, &information.Dates, w)
 	for i := 0; i < len(information.Dates.Dates); i++ {
 		information.Dates.Dates[i] = strings.TrimPrefix(information.Dates.Dates[i], "*")
 	}
 	if !result {
 		return
 	}
-	result = ReadFromAPI(http.MethodGet, information.Artist.Locations, &information.Locations, w)
+	result = ReadFromAPI(information.Artist.Locations, &information.Locations, w)
 	if !result {
 		return
 	}
-	err = SafeRenderTemplate(w, tmpl, "MoreInformationPage.html", http.StatusOK, information)
+	err = SafeRenderTemplate(w, tmpl, "concerts.html", http.StatusOK, information)
 	if err != nil {
 		log.Println("Error executing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 		return
 	}
+}
+
+func Contains(slice []Artists, str string) (bool, int) {
+	for _, item := range slice {
+		if item.Name == str {
+			return true, item.Id
+		}
+	}
+	return false, -1
 }

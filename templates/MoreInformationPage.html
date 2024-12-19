@@ -11,6 +11,7 @@
         <h1><a href="/">Groupie-Tracker</a></h1>
     </div>
     <div>
+        <p><h1>{{.Artist.Name}}<h1></p>
         <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}"></p>
         <p><h2>Members:</h2> {{range .Artist.Members}}<p>{{.}}</p>{{end}}</p>
         <p><h2>Creation Date:</h2> {{.Artist.CreationDate}}</p>
@@ -40,14 +41,13 @@
             <tbody>
                 {{range $key, $values := .Relations.DatesLocations}}
                 <tr>
-                    <td rowspan="{{len $values}}">{{$key}}</td>
-                    <td>{{index $values 0}}</td>
+                    <td>{{$key}}</td>
+                    <td>
+                        {{range $i, $value := $values}}
+                            {{$value}}<br>
+                        {{end}}
+                    </td>
                 </tr>
-                {{range $index, $value := slice $values 1}}
-                <tr>
-                    <td>{{$value}}</td>
-                </tr>
-                {{end}}
                 {{end}}
             </tbody>
         </table>
