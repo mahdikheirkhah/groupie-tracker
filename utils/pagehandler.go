@@ -27,7 +27,7 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		var artists []Artists
-		ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists", &artists, w)
+		ReadFromAPI("https://groupietrackers.herokuapp.com/api/artists", &artists, w)
 		if len(artists) == 0 {
 			log.Println("No artists data available")
 			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -52,9 +52,11 @@ func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	artistName := strings.TrimPrefix(r.URL.Path, "/artist/")
-	URL := "https://groupietrackers.herokuapp.com/api/artists"
+	URL := "https://groupietrackers.herokuapp.com/api"
+	var api API
+	ReadFromAPI(URL, &api, w)
 	var artists []Artists
-	ReadFromAPI(http.MethodGet, URL, &artists, w)
+	ReadFromAPI(api.Artists, &artists, w)
 	IsContain, artistId := Contains(artists, artistName)
 	if !IsContain {
 		Error(w, "Not Found Error", "notFound.html", http.StatusNotFound)
@@ -68,18 +70,18 @@ func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 		return
 	}
-	result := ReadFromAPI(http.MethodGet, information.Artist.Relations, &information.Relations, w)
+	result := ReadFromAPI(information.Artist.Relations, &information.Relations, w)
 	if !result {
 		return
 	}
-	result = ReadFromAPI(http.MethodGet, information.Artist.ConcertDates, &information.Dates, w)
+	result = ReadFromAPI(information.Artist.ConcertDates, &information.Dates, w)
 	for i := 0; i < len(information.Dates.Dates); i++ {
 		information.Dates.Dates[i] = strings.TrimPrefix(information.Dates.Dates[i], "*")
 	}
 	if !result {
 		return
 	}
-	result = ReadFromAPI(http.MethodGet, information.Artist.Locations, &information.Locations, w)
+	result = ReadFromAPI(information.Artist.Locations, &information.Locations, w)
 	if !result {
 		return
 	}

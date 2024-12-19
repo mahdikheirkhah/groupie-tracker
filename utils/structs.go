@@ -1,5 +1,11 @@
 package utils
 
+type API struct {
+	Artists   string
+	Locations string
+	Dates     string
+	Relations string
+}
 type Artists struct {
 	Id           int
 	Image        string
