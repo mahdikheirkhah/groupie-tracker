@@ -33,14 +33,6 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 		var artists []Artists
 		ReadFromAPI(http.MethodGet, "https://groupietrackers.herokuapp.com/api/artists", &artists, w)
 
-		for i := 0; i < len(artists); i++ {
-			for j := 0; j < len(artists[i].Members); j++ {
-				if j != len(artists[i].Members)-1 {
-					artists[i].Members[j] += ","
-				}
-			}
-		}
-
 		if len(artists) == 0 {
 			log.Println("No artists data available")
 			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -58,8 +50,8 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ConcertsHandler handles individual artist pages
-func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
+// MorInfoHandler handles individual artist pages
+func MorInfoHandler(w http.ResponseWriter, r *http.Request) {
 	Artistid := strings.TrimPrefix(r.URL.Path, "/artist/")
 	ArtistIntId, err := strconv.Atoi(Artistid)
 	if err != nil || ArtistIntId < 1 || ArtistIntId > 52 {
@@ -72,7 +64,7 @@ func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	URL := "https://groupietrackers.herokuapp.com/api/artists/" + Artistid
-	tmpl, err := template.ParseFiles("templates/concerts.html")
+	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -98,7 +90,7 @@ func ConcertsHandler(w http.ResponseWriter, r *http.Request) {
 	if !result {
 		return
 	}
-	err = SafeRenderTemplate(w, tmpl, "concerts.html", http.StatusOK, information)
+	err = SafeRenderTemplate(w, tmpl, "MoreInformationPage.html", http.StatusOK, information)
 	if err != nil {
 		log.Println("Error executing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)

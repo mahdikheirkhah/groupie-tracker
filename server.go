@@ -11,7 +11,7 @@ func main() {
 	http.Handle("/static/", http.FileServer(http.Dir(".")))
 	// Register route handlers
 	http.HandleFunc("/", utils.MainPageHandler)
-	http.HandleFunc("/artist/", utils.ConcertsHandler)
+	http.HandleFunc("/artist/", utils.MorInfoHandler)
 	//start the server on port 8080
 	log.Println("Starting server on: http://localhost:8080")
 	log.Println("Status ok: ", http.StatusOK)

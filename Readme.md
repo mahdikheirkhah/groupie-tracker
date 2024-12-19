@@ -1,11 +1,5 @@
 # Groupie-Tracker
 
-## Description
-
-`Groupie-Tracker`
-
----
-
 ## Objectives
 
 - Receiv a given API and manipulate the data contained in it in order to create a website displaying the information.
@@ -44,9 +38,11 @@
     │   ├── badRequest.html
     │   ├── internalServer.html
     │   └── notFound.html
-    ├── static/
-        ├── css/
-            └── styles.css
+    └── static/
+        ├── index.html
+        └── css/
+            ├── styles.css
+            └── index.html
 ```
 
 ## Usage
@@ -66,7 +62,7 @@
 4. Run the application:
 
    ```bash
-   go run server.go
+   go run .
 
    ```
 
