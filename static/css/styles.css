@@ -21,7 +21,7 @@ body {
 }
 
 .nav-bar a {
-    color:#363331;
+    color:#e7d7c7;
     text-decoration: none;
     padding-left: 50px;
     padding-right: 50px;
@@ -89,9 +89,9 @@ h2 {
     background-color:#5C5470 ;
 }
 
-.artist h2 {
+/* .artist h2 {
     min-height: 60px;
-}
+} */
 
 
 #artists {
