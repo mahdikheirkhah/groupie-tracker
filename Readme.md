@@ -51,7 +51,7 @@
 
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://01.gritlab.ax/git/
+   git clone https://01.gritlab.ax/git/mkheirkh/groupie-tracker.git
    ```
 2. Navigate to the project directory:
    ```bash
