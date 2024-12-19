@@ -21,7 +21,7 @@ body {
 }
 
 .nav-bar a {
-    color:#FAF0E6;
+    color:#363331;
     text-decoration: none;
     padding-left: 50px;
     padding-right: 50px;
@@ -32,7 +32,7 @@ body {
 
 h2 {
 
-    color: #efe3d7;
+    color: #e7d7c7;
 }
 
 #SearchForm {
@@ -80,7 +80,7 @@ h2 {
 }
 
 .artist {
-    border: 1px solid #202221;
+    border: 1px solid #35333a;
     padding: 15px;
     border-radius: 8px;
     text-align: center;
@@ -114,7 +114,7 @@ h2 {
 .info-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #3e9e41;
+    background-color: #52b788;
     color: #000;
     text-align: center;
     text-decoration: none;
@@ -128,7 +128,7 @@ h2 {
 }
 
 .info-button:hover {
-    background-color: #be7646;
+    background-color: #40966e;
 }
 
 .details-button {
@@ -147,7 +147,7 @@ h2 {
 }
 
 .details-button:hover {
-    background-color: #c88227;
+    background-color: #c58634;
 }
 
 #DatesLocationsTable {
@@ -163,13 +163,13 @@ table {
 }
 
 th, td {
-    border: 1px solid #847a64;
-    padding: 8px;
-    text-align: left;
+    border: 1.5px solid #2b2925;
+    padding: 10px;
+    text-align: center;
 }
 
 th {
-    background-color: #eb9a38;
+    background-color: #52b788;
 }
 td {
     background-color: #FAF0E6;
