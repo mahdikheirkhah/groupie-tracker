@@ -1,7 +1,7 @@
 body {
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    background-color: #ffe7ae;
+    background-color: #352F44;
     overflow-y: auto;
     overflow-x: auto;
     min-height: 100vh;
@@ -9,8 +9,8 @@ body {
 }
 
 .nav-bar {
-    background-color: #663b21;
-    border-bottom: 1px solid #6ad1b9;
+    background-color: #8579a4;
+    border-bottom: 1px solid #D8C4B6;
     width: 100%;
     margin: auto;
     text-align: center;
@@ -21,7 +21,7 @@ body {
 }
 
 .nav-bar a {
-    color: #ff7500;
+    color:#363331;
     text-decoration: none;
     padding-left: 50px;
     padding-right: 50px;
@@ -31,12 +31,13 @@ body {
 }
 
 h2 {
-    color: #ff7500;
+
+    color: #e7d7c7;
 }
 
 #SearchForm {
-    background-color: #663b21;
-    border: 1px solid #6ad1b9;
+    background-color:#FAF0E6;
+    border: 1px solid #48484b;
     border-radius: 10px;
     padding: 20px;
     box-sizing: border-box;
@@ -79,14 +80,19 @@ h2 {
 }
 
 .artist {
-    border: 1px solid #6ad1b9;
+    border: 1px solid #35333a;
     padding: 15px;
     border-radius: 8px;
     text-align: center;
     align-items: center;
     overflow: auto; 
-    background-color: #663b21;
+    background-color:#5C5470 ;
 }
+
+.artist h2 {
+    min-height: 60px;
+}
+
 
 #artists {
     display: grid; 
@@ -95,6 +101,7 @@ h2 {
     width: 90%; 
     margin: 20px auto; 
     justify-content: center; 
+
 }
 
 .artist img {
@@ -107,7 +114,7 @@ h2 {
 .info-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #6ad1b9;
+    background-color: #52b788;
     color: #000;
     text-align: center;
     text-decoration: none;
@@ -121,12 +128,12 @@ h2 {
 }
 
 .info-button:hover {
-    background-color: #6da570;
+    background-color: #40966e;
 }
 
 .details-button {
     display: inline-block;
-    background-color: #6ad1b9;
+    background-color: #D39D55;
     color: #000;
     text-align: center;
     text-decoration: none;
@@ -140,7 +147,7 @@ h2 {
 }
 
 .details-button:hover {
-    background-color: #6da570;
+    background-color: #c58634;
 }
 
 #DatesLocationsTable {
@@ -152,14 +159,35 @@ h2 {
 table {
     width: 50%;
     border-collapse: collapse;
+    border-radius: 50%;
 }
 
 th, td {
-    border: 1px solid #663b21;
-    padding: 8px;
-    text-align: left;
+    border: 1.5px solid #2b2925;
+    padding: 10px;
+    text-align: center;
 }
 
 th {
-    background-color: #663b21;
+    background-color: #52b788;
+}
+td {
+    background-color: #FAF0E6;
+}
+
+ul {
+    text-align: center;
+    display: inline-block;
+    list-style-type: none;
+    padding: 0px !important;
+}
+
+li {
+    background-color: #FAF0E6;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
 }
