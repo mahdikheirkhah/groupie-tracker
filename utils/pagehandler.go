@@ -64,7 +64,7 @@ func MorInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var information InformationPage
 	information.Artist = artists[artistId-1]
-	tmpl, err := template.ParseFiles("templates/concerts.html")
+	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -85,7 +85,7 @@ func MorInfoHandler(w http.ResponseWriter, r *http.Request) {
 	if !result {
 		return
 	}
-	err = SafeRenderTemplate(w, tmpl, "concerts.html", http.StatusOK, information)
+	err = SafeRenderTemplate(w, tmpl, "MoreInformationPage.html", http.StatusOK, information)
 	if err != nil {
 		log.Println("Error executing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
