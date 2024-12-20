@@ -72,18 +72,20 @@
 
 ## Instructions
 
-1. Browse thru the page to select a band or use the search bar.
+1. Browse through the page to select a band or use the search bar.
 2. Select either "See Details" at search bar or "More Information" under the artist picture.
-3. Check thru the artist page.
+3. Check the artist page.
 
 ---
 
 - Routes:
 
-  - GET /:
+  - /:
     - Renders the homepage using the index.html template.
     - Serves static CSS files for styling.
-
+  - /artist/<artist_name>:
+    - Renders the artist details using the MoreInformationPage.html template.
+    - Serves static CSS files for styling.
 - Error Handling:
   - Custom HTML templates (badRequest.html, notFound.html, internalServer.html) are served for HTTP error codes.
 

@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{.Artist.Name}} </title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
+{{template "head"}}
 <body>
-    <div class="nav-bar">
-        <h1><a href="/">Groupie-Tracker</a></h1>
-    </div>
+    {{template "navBar"}}
     <div>
         <p><h1><ul><li>{{.Artist.Name}}</li></ul><h1></p>
             <p> <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}"></p>
@@ -56,5 +47,6 @@
             </tbody>
         </table>
     </div>
+    {{template "goBack"}}
 </body>
 </html>
