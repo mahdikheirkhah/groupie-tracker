@@ -65,7 +65,7 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var information InformationPage
 	information.Artist = artists[artistId-1]
-	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html", "templates/header.html", "templates/navBar.html", "templates/goBackButtom.html")
+	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html", "templates/header.html", "templates/navBar.html", "templates/goBackButton.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
