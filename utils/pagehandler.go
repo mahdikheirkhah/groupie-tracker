@@ -20,7 +20,7 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/artist/"+artistName, http.StatusSeeOther)
 			return
 		}
-		tmpl, err := template.ParseFiles("templates/index.html")
+		tmpl, err := template.ParseFiles("templates/index.html", "templates/header.html", "templates/navBar.html")
 		if err != nil {
 			log.Println("Error parsing template:", err)
 			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -40,6 +40,7 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 			Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 			return
 		}
+		log.Printf("Response Status: %d\n", http.StatusOK)
 	} else {
 		Error(w, "Bad Request Error", "badRequest.html", http.StatusBadRequest)
 	}
@@ -64,7 +65,7 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var information InformationPage
 	information.Artist = artists[artistId-1]
-	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html")
+	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html", "templates/header.html", "templates/navBar.html", "templates/goBackButtom.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -91,11 +92,15 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
 		return
 	}
+	log.Printf("Response Status: %d\n", http.StatusOK)
 }
 
-func Contains(slice []Artists, str string) (bool, int) {
+func Contains(slice []Artists, lookingName string) (bool, int) {
+	lookingName = strings.ToLower(lookingName)
+	var lowerCaseArtistsName string
 	for _, item := range slice {
-		if item.Name == str {
+		lowerCaseArtistsName = strings.ToLower(item.Name)
+		if lowerCaseArtistsName == lookingName {
 			return true, item.Id
 		}
 	}

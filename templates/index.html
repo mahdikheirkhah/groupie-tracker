@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artists</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
+{{template "head"}}
 <body>
-    <div class="nav-bar">
-        <h1><a href="/">Groupie-Tracker</a></h1>
-    </div>
-
+    {{template "navBar"}}
     <form id="SearchForm">
+       <div>
         <label for="artistsOption">Choose an artist:</label>
         <select id="artistsOption" name="artistName">
             {{range .}}
                 <option value="{{.Name}}">{{.Name}}</option>
             {{end}}
         </select>
-        <br><br>
+        </div>
+        <div>
         <input type="submit" class="details-button" value="See Details">
+        </div>
     </form>
 
     <div id="artists">
@@ -31,5 +24,18 @@
         </div>
         {{end}}
     </div>
+    <script>document.addEventListener("DOMContentLoaded", function() {
+        const searchForm = document.getElementById("SearchForm");
+        const navBarHeight = document.querySelector(".nav-bar").offsetHeight;
+    
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > navBarHeight - 5) {
+                searchForm.classList.add("sticky");
+            } else {
+                searchForm.classList.remove("sticky");
+            }
+        });
+    });
+    </script>
 </body>
 </html>

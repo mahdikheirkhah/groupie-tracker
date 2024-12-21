@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Groupie Tracker</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
+{{template "head"}}
 <body>
-    <div class="nav-bar">
-        <h1><a href="/">Groupie-Tracker</a></h1>
+    {{template "navBar"}}
+    <div class="hint">
+        <p>
+            you have send a bad request go back to the main page using go back botton at the end of page.  
+        </p>
     </div>
     <div id="error">
         <pre>                         
@@ -31,5 +27,6 @@
                                                   |_|                            
         </pre>
     </div>
+    {{template "goBack"}}
 </body>
 </html>

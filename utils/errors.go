@@ -10,7 +10,7 @@ import (
 func Error(w http.ResponseWriter, errorMessage string, htmlFileName string, statusCode int) {
 	log.Printf("Response Status: %d\n", statusCode)
 	htmlFileAddress := "templates/" + htmlFileName
-	tmpl, err := template.ParseFiles(htmlFileAddress)
+	tmpl, err := template.ParseFiles(htmlFileAddress, "templates/header.html", "templates/navBar.html", "templates/goBackButtom.html")
 	if err != nil {
 		log.Println(err)
 		http.Error(w, errorMessage, statusCode)
