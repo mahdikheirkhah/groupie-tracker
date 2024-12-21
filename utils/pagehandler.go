@@ -95,6 +95,7 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Response Status: %d\n", http.StatusOK)
 }
 
+// Contains checks if an artist name exists in the slice and returns true with the ID, or false and -1 if not found.
 func Contains(slice []Artists, lookingName string) (bool, int) {
 	lookingName = strings.ToLower(lookingName)
 	var lowerCaseArtistsName string
