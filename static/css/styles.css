@@ -9,10 +9,9 @@ body {
 }
 
 .nav-bar {
-    background-color: #8579a4;
+    background-color: #5C5470;
     border-bottom: 1px solid #D8C4B6;
     width: 100%;
-    /* margin: 0px 20px; */
     text-align: center;
     list-style-type: none;
     display: flex;
@@ -35,21 +34,19 @@ h2 {
 }
 
 #SearchForm {
+    display: block;
     width: 100%; /* Make the form fill the container's width */
     max-width: none; /* Remove the max-width constraint */
-    margin: 0; /* Remove margins when sticky */
-    box-sizing: border-box; /* Ensure padding and borders are included in the dimensions */
-    /* flex-direction: column; */
-    justify-content: center;
-    align-items: center;
-    background-color: #FAF0E6
-}
-
-#SearchForm div {
-    display: block;
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px; /* Remove margins when sticky */
+    box-sizing: border-box; /* Ensure padding and borders are included in the dimensions */
+    justify-content: center;
+    align-items: center;
+    background-color: #8579a4
+}
+#artistsOption {
+    background-color: #e7d7c7;
 }
 
 .sticky {
@@ -58,16 +55,13 @@ h2 {
     left: 0;
     box-sizing: border-box;
     width: 100%; /* Ensure it spans the entire width of the viewport */
-    height: 100px; /* Set a fixed height */
+    height: 40px; /* Set a fixed height */
     z-index: 1; /* Keep it on top of other elements without floating above content */
     flex-direction: column;
     justify-content: center;
     align-items: center; /* Vertically center the content */
-    background-color: #FAF0E6; /* Maintain a consistent background color */
+    background-color: #8579a4; /* Maintain a consistent background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow for visual distinction */
-    /* padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px; */
 }
 
 #DatesLocationsTable{
@@ -120,9 +114,9 @@ h2 {
     background-color:#5C5470 ;
 }
 
-/* .artist h2 {
+.artist h2 {
     min-height: 60px;
-} */
+}
 
 
 #artists {
