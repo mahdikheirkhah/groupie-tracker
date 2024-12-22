@@ -36,8 +36,8 @@
             <tbody>
                 {{range $key, $values := .Relations.DatesLocations}}
                 <tr>
-                    <td>{{$key}}</td>
-                    <td>
+                    <td id="locationKey">{{$key}}</td>
+                    <td id="dateValue">
                         {{range $i, $value := $values}}
                             {{$value}}<br>
                         {{end}}
