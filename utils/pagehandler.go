@@ -67,7 +67,7 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	var information InformationPage
 	information.Artist = artists[artistId-1]
 	fmt.Println(information.Artist.CreationDate)
-	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html", "templates/header.html", "templates/navBar.html", "templates/goBackButtom.html")
+	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html", "templates/header.html", "templates/navBar.html", "templates/goBackButton.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
 		Error(w, "Internal Server Error", "internalServer.html", http.StatusInternalServerError)
@@ -97,6 +97,7 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Response Status: %d\n", http.StatusOK)
 }
 
+// Contains checks if an artist name exists in the slice and returns true with the ID, or false and -1 if not found.
 func Contains(slice []Artists, lookingName string) (bool, int) {
 	lookingName = strings.ToLower(lookingName)
 	var lowerCaseArtistsName string
