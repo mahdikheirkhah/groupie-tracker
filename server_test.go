@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -124,12 +125,12 @@ func TestMainPageHandler(t *testing.T) {
 
 func TestMoreInfoHandler(t *testing.T) {
 	tests := []struct {
-		name           string
-		url            string
-		method         string
-		body           string
-		expectedStatus int
-		expectedArtistInfo   utils.InformationPage
+		name               string
+		url                string
+		method             string
+		body               string
+		expectedStatus     int
+		expectedArtistInfo utils.InformationPage
 	}{
 		{
 			name:           "Valid Root Path",
@@ -195,9 +196,9 @@ func TestMoreInfoHandler(t *testing.T) {
 					t.Errorf("Error renaming file: %v\n", err)
 					return
 				}
-			} else if test.name == "Valid answer" {
+			} else if strings.HasPrefix(test.name, "Valid answer") {
 				var artists []utils.Artists
-				
+
 				result := getInfo("https://groupietrackers.herokuapp.com/api/artists", &artists)
 				if !result {
 					t.Errorf("Error reading from api of test file: %v\n", err)
@@ -211,33 +212,33 @@ func TestMoreInfoHandler(t *testing.T) {
 					return
 				}
 				test.expectedArtistInfo.Artist = artists[artistId-1]
-				
+
 				switch strings.TrimPrefix(test.name, "Valid answer ") {
-					case "d" :
-						result := getInfo(test.expectedArtistInfo.Artist.ConcertDates, &test.expectedArtistInfo.Dates)
-						for i := 0; i < len(test.expectedArtistInfo.Dates.Dates); i++ {
-							test.expectedArtistInfo.Dates.Dates[i] = strings.TrimPrefix(test.expectedArtistInfo.Dates.Dates[i], "*")
-						}
-						if !result {
-							t.Errorf("Error reading from api of test file: %v\n", err)
-							return
-						}
-					case "l" :
-						result := getInfo(test.expectedArtistInfo.Artist.Locations, &test.expectedArtistInfo.Locations)
-						if !result {
-							t.Errorf("Error reading from api of test file: %v\n", err)
-							return
-						}
-					case "r" :
-						result := getInfo(test.expectedArtistInfo.Artist.Relations, &test.expectedArtistInfo.Relations)
-						if !result {
-							t.Errorf("Error reading from api of test file: %v\n", err)
-							return
-						}
+				case "d":
+					result := getInfo(test.expectedArtistInfo.Artist.ConcertDates, &test.expectedArtistInfo.Dates)
+					for i := 0; i < len(test.expectedArtistInfo.Dates.Dates); i++ {
+						test.expectedArtistInfo.Dates.Dates[i] = strings.TrimPrefix(test.expectedArtistInfo.Dates.Dates[i], "*")
+					}
+					if !result {
+						t.Errorf("Error reading from api of test file: %v\n", err)
+						return
+					}
+				case "l":
+					result := getInfo(test.expectedArtistInfo.Artist.Locations, &test.expectedArtistInfo.Locations)
+					if !result {
+						t.Errorf("Error reading from api of test file: %v\n", err)
+						return
+					}
+				case "r":
+					result := getInfo(test.expectedArtistInfo.Artist.Relations, &test.expectedArtistInfo.Relations)
+					if !result {
+						t.Errorf("Error reading from api of test file: %v\n", err)
+						return
+					}
 				}
 			}
 			responseHolder := httptest.NewRecorder()
-			handler := http.HandlerFunc(utils.MainPageHandler)
+			handler := http.HandlerFunc(utils.MoreInfoHandler)
 			handler.ServeHTTP(responseHolder, req)
 
 			if responseHolder.Code != test.expectedStatus {
@@ -245,82 +246,82 @@ func TestMoreInfoHandler(t *testing.T) {
 			}
 			if strings.HasPrefix(test.name, "Valid answer") { //only for the test cases with name <<valid input>> check for the output
 				switch strings.TrimPrefix(test.name, "Valid answer ") {
-					case "d" :
-						divVal, err := extractValueByID(responseHolder.Body.String(), "dates","li","</li>")
-						if err != nil {
-							t.Errorf("Error extracting div: %v", err)
+				case "d":
+					divVal, err := extractValueByID(responseHolder.Body.String(), "dates", "li", "</li>")
+					if err != nil {
+						t.Errorf("Error extracting div: %v", err)
+					}
+					if len(divVal) != len(test.expectedArtistInfo.Dates.Dates) {
+						t.Errorf("Expected to have %d artist, but got %d artist", len(test.expectedArtistInfo.Dates.Dates), len(divVal))
+						return
+					}
+					for i, dates := range test.expectedArtistInfo.Dates.Dates {
+						divVal[i] = html.UnescapeString(divVal[i])
+						if dates != divVal[i] {
+							t.Errorf("Expected h2 #find to have value %s, but got %s", dates, divVal[i])
 						}
-						if len(divVal) != len(test.expectedArtistInfo.Dates.Dates) {
-							t.Errorf("Expected to have %d artist, but got %d artist", len(test.expectedArtistInfo.Dates.Dates), len(divVal))
-							return
+					}
+				case "l":
+					divVal, err := extractValueByID(responseHolder.Body.String(), "locations", "li", "</li>")
+					if err != nil {
+						t.Errorf("Error extracting div: %v", err)
+					}
+					if len(divVal) != len(test.expectedArtistInfo.Locations.Locations) {
+						t.Errorf("Expected to have %d artist, but got %d artist", len(test.expectedArtistInfo.Dates.Dates), len(divVal))
+						return
+					}
+					for i, locations := range test.expectedArtistInfo.Locations.Locations {
+						divVal[i] = html.UnescapeString(divVal[i])
+						if locations != divVal[i] {
+							t.Errorf("Expected to have value %s, but got %s", locations, divVal[i])
 						}
-						for i, dates := range test.expectedArtistInfo.Dates.Dates {
-							divVal[i] = html.UnescapeString(divVal[i])
-							if dates != divVal[i] {
-								t.Errorf("Expected h2 #find to have value %s, but got %s", dates, divVal[i])
-							}
+					}
+				case "m":
+					divVal, err := extractValueByID(responseHolder.Body.String(), "members", "li", "</li>")
+					if err != nil {
+						t.Errorf("Error extracting div: %v", err)
+					}
+					if len(divVal) != len(test.expectedArtistInfo.Artist.Members) {
+						t.Errorf("Expected to have %d artist, but got %d artist", len(test.expectedArtistInfo.Dates.Dates), len(divVal))
+						return
+					}
+					for i, member := range test.expectedArtistInfo.Artist.Members {
+						divVal[i] = html.UnescapeString(divVal[i])
+						if member != divVal[i] {
+							t.Errorf("Expected to have value %s, but got %s", member, divVal[i])
 						}
-					case "l" :
-						divVal, err := extractValueByID(responseHolder.Body.String(), "locations","li","</li>")
-						if err != nil {
-							t.Errorf("Error extracting div: %v", err)
-						}
-						if len(divVal) != len(test.expectedArtistInfo.Locations.Locations) {
-							t.Errorf("Expected to have %d artist, but got %d artist", len(test.expectedArtistInfo.Dates.Dates), len(divVal))
-							return
-						}
-						for i, locations := range test.expectedArtistInfo.Locations.Locations {
-							divVal[i] = html.UnescapeString(divVal[i])
-							if locations != divVal[i] {
-								t.Errorf("Expected h2 #find to have value %s, but got %s", locations, divVal[i])
-							}
-						}
-					// case "r" :
-						
-					case "m" :
-						divVal, err := extractValueByID(responseHolder.Body.String(), "members","li","</li>")
-						if err != nil {
-							t.Errorf("Error extracting div: %v", err)
-						}
-						if len(divVal) != len(test.expectedArtistInfo.Artist.Members) {
-							t.Errorf("Expected to have %d artist, but got %d artist", len(test.expectedArtistInfo.Dates.Dates), len(divVal))
-							return
-						}
-						for i, member := range test.expectedArtistInfo.Artist.Members {
-							divVal[i] = html.UnescapeString(divVal[i])
-							if member != divVal[i] {
-								t.Errorf("Expected h2 #find to have value %s, but got %s", member, divVal[i])
-							}
-						}
-					case "f" :
-						divVal, err := extractValueByID(responseHolder.Body.String(), "firstAlbum","li","</li>")
-						if err != nil {
-							t.Errorf("Error extracting div: %v", err)
-						}
-						if len(divVal) != 1 {
-							t.Errorf("Expected to have one date for first album, but got %d", len(divVal))
-							return
-						}
-						divVal[0] = html.UnescapeString(divVal[0])
-						if test.expectedArtistInfo.Artist.FirstAlbum != divVal[0] {
-								t.Errorf("Expected to have value %s, but got %s", test.expectedArtistInfo.Artist.FirstAlbum, divVal[i])
-						}
-					case "c" :
-						divVal, err := extractValueByID(responseHolder.Body.String(), "creationDate","li","</li>")
-						if err != nil {
-							t.Errorf("Error extracting div: %v", err)
-						}
-						if len(divVal) != 1 {
-							t.Errorf("Expected to have one date for first album, but got %d", len(divVal))
-							return
-						}
-						
-						divVal[0] = html.UnescapeString(divVal[0])
-						string
-						if test.expectedArtistInfo.Artist.CreationDate  != divVal[0] {
-								t.Errorf("Expected to have value %s, but got %s", test.expectedArtistInfo.Artist.FirstAlbum, divVal[0])
-						}	
-			}
+					}
+				case "f":
+					divVal, err := extractValueByID(responseHolder.Body.String(), "firstAlbum", "li", "</li>")
+					if err != nil {
+						t.Errorf("Error extracting div: %v", err)
+					}
+					if len(divVal) != 1 {
+						t.Errorf("Expected to have one date for first album, but got %d", len(divVal))
+						return
+					}
+					divVal[0] = html.UnescapeString(divVal[0])
+					if test.expectedArtistInfo.Artist.FirstAlbum != divVal[0] {
+						t.Errorf("Expected to have value %s, but got %s", test.expectedArtistInfo.Artist.FirstAlbum, divVal[0])
+					}
+				case "c":
+					divVal, err := extractValueByID(responseHolder.Body.String(), "creationDate", "li", "</li>")
+					if err != nil {
+						t.Errorf("Error extracting div: %v", err)
+					}
+					if len(divVal) != 1 {
+						t.Errorf("Expected to have one date for first album, but got %d", len(divVal))
+						return
+					}
+					divVal[0] = html.UnescapeString(divVal[0])
+					number, err := strconv.Atoi(divVal[0])
+					if err != nil {
+						t.Errorf("Error: %v", err)
+					}
+					if test.expectedArtistInfo.Artist.CreationDate != number {
+						t.Errorf("Expected to have value %s, but got %s", test.expectedArtistInfo.Artist.FirstAlbum, divVal[0])
+					}
+				}
 			}
 			if test.name == "Internal Server Error" { //recahnge the name of the file
 				sourceName := "./templates/home.html"
@@ -335,8 +336,8 @@ func TestMoreInfoHandler(t *testing.T) {
 	}
 }
 
-func extractValueByID(html, ID , startTagname, endTag string) ([]string, error) {
-	startTag :=  `<`+ startTagname + ` id="` + ID + `">`
+func extractValueByID(html, ID, startTagname, endTag string) ([]string, error) {
+	startTag := `<` + startTagname + ` id="` + ID + `">`
 	var err error
 	notFind := false
 	var names []string
@@ -372,19 +373,16 @@ func extractValueByID(html, ID , startTagname, endTag string) ([]string, error) 
 	return names, nil
 }
 
-
-func getInfo(URL string, toSaveResult any,) bool { 
+func getInfo(URL string, toSaveResult any) bool {
 	apiRes, err := http.Get(URL)
 	if err != nil {
 		return false
 	}
+
 	body, err := io.ReadAll(apiRes.Body)
 	if err != nil {
 		return false
 	}
 	err = json.Unmarshal(body, &toSaveResult)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
