@@ -14,7 +14,7 @@
     <div id="artists">
         {{range .}}
         <div class="artist">
-            <h2>{{.Name}}</h2>
+            <h2 id="find">{{.Name}}</h2>
             <p><img src="{{.Image}}" alt="{{.Name}}"></p>
             <p><strong> <a href="/artist/{{.Name}}" class="info-button">More Information</a></strong></p>
         </div>

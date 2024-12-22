@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -65,6 +66,7 @@ func MoreInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var information InformationPage
 	information.Artist = artists[artistId-1]
+	fmt.Println(information.Artist.CreationDate)
 	tmpl, err := template.ParseFiles("templates/MoreInformationPage.html", "templates/header.html", "templates/navBar.html", "templates/goBackButton.html")
 	if err != nil {
 		log.Println("Error parsing template:", err)
