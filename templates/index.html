@@ -2,17 +2,13 @@
 <body>
     {{template "navBar"}}
     <form id="SearchForm">
-       <div>
         <label for="artistsOption">Choose an artist:</label>
         <select id="artistsOption" name="artistName">
             {{range .}}
                 <option value="{{.Name}}">{{.Name}}</option>
             {{end}}
         </select>
-        </div>
-        <div>
         <input type="submit" class="details-button" value="See Details">
-        </div>
     </form>
 
     <div id="artists">

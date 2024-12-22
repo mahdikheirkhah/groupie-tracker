@@ -1,7 +1,7 @@
 body {
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    background-color: #352F44;
+    background-color: #423349;
     overflow-y: auto;
     overflow-x: auto;
     min-height: 100vh;
@@ -9,10 +9,9 @@ body {
 }
 
 .nav-bar {
-    background-color: #8579a4;
+    background-color: #795770;
     border-bottom: 1px solid #D8C4B6;
     width: 100%;
-    /* margin: 0px 20px; */
     text-align: center;
     list-style-type: none;
     display: flex;
@@ -35,21 +34,19 @@ h2 {
 }
 
 #SearchForm {
+    display: block;
     width: 100%; /* Make the form fill the container's width */
     max-width: none; /* Remove the max-width constraint */
-    margin: 0; /* Remove margins when sticky */
-    box-sizing: border-box; /* Ensure padding and borders are included in the dimensions */
-    /* flex-direction: column; */
-    justify-content: center;
-    align-items: center;
-    background-color: #FAF0E6
-}
-
-#SearchForm div {
-    display: block;
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px; /* Remove margins when sticky */
+    box-sizing: border-box; /* Ensure padding and borders are included in the dimensions */
+    justify-content: center;
+    align-items: center;
+    background-color: #b6a28e
+}
+#artistsOption {
+    background-color: #e7d7c7;
 }
 
 .sticky {
@@ -58,16 +55,13 @@ h2 {
     left: 0;
     box-sizing: border-box;
     width: 100%; /* Ensure it spans the entire width of the viewport */
-    height: 100px; /* Set a fixed height */
+    height: 40px; /* Set a fixed height */
     z-index: 1; /* Keep it on top of other elements without floating above content */
     flex-direction: column;
     justify-content: center;
     align-items: center; /* Vertically center the content */
-    background-color: #FAF0E6; /* Maintain a consistent background color */
+    background-color: #b6a28e; /* Maintain a consistent background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow for visual distinction */
-    /* padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px; */
 }
 
 #DatesLocationsTable{
@@ -117,12 +111,12 @@ h2 {
     text-align: center;
     align-items: center;
     overflow: auto; 
-    background-color:#5C5470 ;
+    background-color:#8361848a ;
 }
 
-/* .artist h2 {
+.artist h2 {
     min-height: 60px;
-} */
+}
 
 
 #artists {
@@ -145,8 +139,8 @@ h2 {
 .info-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #52b788;
-    color: #000;
+    background-color:#9cba4c;
+    color: #3f332b;
     text-align: center;
     text-decoration: none;
     border-radius: 5px;
@@ -159,13 +153,13 @@ h2 {
 }
 
 .info-button:hover {
-    background-color: #40966e;
+    background-color: #8ba445;
 }
 
 .details-button {
-    /* display: inline-block; */
-    background-color: #D39D55;
-    color: #000;
+    display: inline-block;
+    background-color: #c67832;
+    color: #26130c;
     text-align: center;
     text-decoration: none;
     border-radius: 3px;
@@ -178,7 +172,7 @@ h2 {
 }
 
 .details-button:hover {
-    background-color: #c58634;
+    background-color: #bf662f;
 }
 
 #DatesLocationsTable {
@@ -201,7 +195,7 @@ th, td {
 }
 
 th {
-    background-color: #52b788;
+    background-color: #9cba4c;
 }
 td {
     background-color: #FAF0E6;
@@ -227,7 +221,7 @@ li {
 .goBackToMain {
     margin-bottom: 20px;
     font-family: 'Courier New';
-    background-color: #D39D55;
+    background-color: #c67832;;
     padding-top: 10px;
     padding-bottom: 10px;
     margin: 10px;
@@ -238,6 +232,7 @@ li {
     text-decoration: none;
     border-radius: 3px;
     font-size: 12px;
+    font-weight:bold;
     flex: 1;
     border: none;
     padding: 15px;
@@ -246,5 +241,5 @@ li {
 }
 
 .goBackToMain:hover {
-    background-color: #c58634;
+    background-color: #bf662f;
 }
